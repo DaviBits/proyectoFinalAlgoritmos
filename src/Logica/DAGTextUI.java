@@ -3,5 +3,108 @@ package Logica;
 import java.util.Scanner;
 
 public class DAGTextUI {
+    private Scanner sc;
+    private GrafoDirigidoAciclico <String> grafo;
 
+    public DAGTextUI(){
+        sc= new Scanner(System.in);
+        grafo=null;
+        mostrarMenu();
+    }
+
+    public void mostrarMenu(){
+        int opc=0;
+        while (opc!=14){
+            System.out.println("INGRESE QUE OPCION QUIERE REALIZAR");
+
+            System.out.println("[1] Crear un nuevo grafo");
+            System.out.println("[2] Insertar vértice");
+            System.out.println("[3] Insertar arista");
+            System.out.println("[4] Ver estructura");
+            System.out.println("[5] Topological Sort");
+            System.out.println("[6] Grado de entrada de un vértice");
+            System.out.println("[7] Grado de salida de un vértice");
+            System.out.println("[8] Cuántas aristas hay");
+            System.out.println("[9] ¿Son adyacentes?");
+            System.out.println("[10] ¿Están conectados?");
+            System.out.println("[11] ¿Tiene ciclos?");
+            System.out.println("[12] Eliminar aristas");
+            System.out.println("[13] Salir");
+
+            opc=sc.nextInt();
+            procesarInstruccion(opc);
+        }
+
+    }
+
+    public void procesarInstruccion(int opc){
+        if(opc!=1&&opc!=13&&grafo==null){
+            System.out.println("aun no hay grafo creado");
+            return;
+        }
+        switch (opc){
+            case 1:
+                System.out.println("ingrese cuantos vertices tendra el grafo:");
+                int vertices= sc.nextInt();
+                grafo= new GrafoDirigidoAciclico<>(vertices);
+                System.out.println("grafo creado con exito");
+                break;
+            case 2:
+                System.out.println("ingrese que vertice quiere ingresar: ");
+                grafo.insertarVertice(sc.next());
+                break;
+            case 3:
+                System.out.println("Ingrese el vertice origen: ");
+                String origen= sc.next();
+                System.out.println("ingrese el vertice destino: ");
+                String destino=sc.next();
+                grafo.insertarArista(origen, destino);
+                break;
+            case 4:
+                System.out.println( grafo.mostrarEstructura());
+                break;
+            case 5:
+                System.out.println(grafo.topologicalSort());
+                break;
+            case 6:
+                System.out.println("Ingresa que vertice quieres conocer el grado de entrada: ");
+                System.out.println("Grado de entrada: " + grafo.gradoDeEntrada(sc.next()));
+                break;
+            case 7:
+                System.out.println("Ingresa que vertice quieres conocer el grado de salida: ");
+                System.out.println("Grado de salida: " + grafo.gradoDeSalida(sc.next()));
+                break;
+            case 8:
+                System.out.println("hay "+grafo.cuantasAristasHay()+" aristas");
+                break;
+            case 9:
+                System.out.println("ingresa el vertice origen: ");
+                String vertice1 = sc.next();
+                System.out.println("ingresa el vertice destino: ");
+                String vertice2= sc.next();
+                System.out.println(grafo.adyacente(vertice1, vertice2));
+                break;
+            case 10:
+                System.out.println("ingresa el vertice origen: ");
+                String ori = sc.next();
+                System.out.println("ingresa el vertice destino: ");
+                String des= sc.next();
+                System.out.println(grafo.conectados(ori, des));
+                break;
+            case 11:
+                System.out.println("tiene ciclos: "+grafo.tieneCiclos());
+                break;
+            case 12:
+                grafo.eliminarAristas();
+                System.out.println("aristas eliminadas");
+                break;
+            case 13:
+                System.out.println("bye");
+                break;
+            default:
+                break;
+
+        }
+        System.out.println("=========================================================");
+    }
 }
