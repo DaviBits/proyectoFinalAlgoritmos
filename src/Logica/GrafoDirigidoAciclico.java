@@ -1,5 +1,6 @@
 package Logica;
 
+
 import java.util.*;
 
 
@@ -13,25 +14,25 @@ import java.util.*;
  */
 
 
-public class GrafoDirigidoAciclico <T> {
+public class GrafoDirigidoAciclico <T>{
 
 
-    private int[][] matriz;//matriz de adyacencia
+    private int [][] matriz;//matriz de adyacencia
     private int numVertices;
     private HashMap<T, Integer> verticeToIndex;
     private int proxIndice;
 
 
-    public GrafoDirigidoAciclico(int n) {
-        this.numVertices = n;
-        matriz = new int[numVertices][numVertices];
-        verticeToIndex = new HashMap<>();
-        proxIndice = 0;
+    public GrafoDirigidoAciclico(int n){
+        this.numVertices=n;
+        matriz= new int[numVertices][numVertices];
+        verticeToIndex= new HashMap<>();
+        proxIndice=0;
 
 
-        for (int i = 0; i <= numVertices - 1; i++) {
-            for (int j = 0; j <= numVertices - 1; j++) {
-                matriz[i][j] = 0;
+        for(int i=0; i<=numVertices-1; i++){
+            for(int j=0; j<=numVertices-1; j++){
+                matriz[i][j]=0;
             }
         }
     }
@@ -43,34 +44,33 @@ public class GrafoDirigidoAciclico <T> {
      * @return el grado de entrada del vertice i
      * @throws IllegalArgumentException si el vertice i no se encuentra en el conjunto de datos delimitado por n-1
      */
-    public int gradoDeEntrada(T i) {
-        if (!verticeToIndex.containsKey(i)) {
+    public int gradoDeEntrada(T i){
+        if(!verticeToIndex.containsKey(i)){
             throw new IllegalArgumentException("Vertice fuera de rango");
         }
-        int indiceVertice = verticeToIndex.get(i);
-        int contadorSalidas = 0;
-        for (int k = 0; k <= numVertices - 1; k++) {
-            if (matriz[k][indiceVertice] == 1) {
+        int indiceVertice= verticeToIndex.get(i);
+        int contadorSalidas=0;
+        for(int k=0; k<=numVertices-1; k++){
+            if(matriz[k][indiceVertice]==1){
                 contadorSalidas++;
             }
         }
         return contadorSalidas;
     }
-
     /**
      *
      * @param i vertice del que quermos conocer cuantas aristas salen de el
      * @return el grado de salida del vertice i
      * @throws IllegalArgumentException si el vertice i no se encuentra en el conjunto de datos delimitado por n-1
      */
-    public int gradoDeSalida(T i) {
-        if (!verticeToIndex.containsKey(i)) {
+    public int gradoDeSalida(T i){
+        if(!verticeToIndex.containsKey(i)){
             throw new IllegalArgumentException("Vertice fuera de rango");
         }
-        int indiceVertice = verticeToIndex.get(i);
-        int contadorSalidas = 0;
-        for (int k = 0; k <= numVertices - 1; k++) {
-            if (matriz[indiceVertice][k] == 1) {
+        int indiceVertice= verticeToIndex.get(i);
+        int contadorSalidas=0;
+        for(int k=0; k<=numVertices-1; k++){
+            if(matriz[indiceVertice][k]==1){
                 contadorSalidas++;
             }
         }
@@ -80,14 +80,13 @@ public class GrafoDirigidoAciclico <T> {
 
     /**
      * recorre la matriz de adyacencia para contar cuantas aristas hay en el grafo
-     *
      * @return la cantidad de aristas del grafo
      */
-    public int cuantasAristasHay() {
-        int contadorAristas = 0;
-        for (int i = 0; i <= numVertices - 1; i++) {
-            for (int j = 0; j <= numVertices - 1; j++) {
-                if (matriz[i][j] == 1) {
+    public int cuantasAristasHay(){
+        int contadorAristas=0;
+        for(int i=0; i<=numVertices-1; i++){
+            for(int j=0; j<=numVertices-1; j++){
+                if(matriz[i][j]==1){
                     contadorAristas++;
                 }
             }
@@ -103,15 +102,17 @@ public class GrafoDirigidoAciclico <T> {
      * @return true si hay un arista desde i hacia J
      * @throws IllegalArgumentException si i o j estan fuera del conjunto de n-1
      */
-    public boolean adyacente(T i, T j) {
-        if (!verticeToIndex.containsKey(i) || !verticeToIndex.containsKey(j)) {
+    public boolean adyacente(T i, T j){
+        if(!verticeToIndex.containsKey(i)||!verticeToIndex.containsKey(j)){
             throw new IllegalArgumentException("vertice fuera de rango");
         }
-        int fuente = verticeToIndex.get(i);
-        int destino = verticeToIndex.get(j);
+        int fuente= verticeToIndex.get(i);
+        int destino= verticeToIndex.get(j);
 
 
-        return matriz[fuente][destino] == 1;
+
+
+        return matriz[fuente][destino]==1;
     }
 
 
@@ -124,23 +125,23 @@ public class GrafoDirigidoAciclico <T> {
      * @return false si no estan conectados
      * @throws IllegalArgumentException si i o j estan fuera del rango n-1
      */
-    public boolean conectados(T i, T j) {
-        if (!verticeToIndex.containsKey(j) || !verticeToIndex.containsKey(i)) {
+    public boolean conectados(T i, T j){
+        if(!verticeToIndex.containsKey(j)||!verticeToIndex.containsKey(i)){
             throw new IllegalArgumentException("vertice fuera de rango");
         }
-        if (i.equals(j)) return true;//caso ciclico
+        if(i.equals(j))return true;//caso ciclico
 
 
-        Cola<T> colaAux = new Cola<>(numVertices);
-        HashSet<T> visitados = new HashSet<>();
+        Cola <T> colaAux = new Cola<>(numVertices);
+        HashSet<T> visitados= new HashSet<>();
         colaAux.insertar(i);
         visitados.add(i);
 
 
-        while (!colaAux.colaVacia()) {
-            T verticeActual = colaAux.eliminar();
-            int idx = verticeToIndex.get(verticeActual);
-            Iterator<Map.Entry<T, Integer>> iterator = verticeToIndex.entrySet().iterator();
+        while(!colaAux.colaVacia()){
+            T verticeActual=colaAux.eliminar();
+            int idx= verticeToIndex.get(verticeActual);
+            Iterator<Map.Entry<T, Integer>> iterator=verticeToIndex.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<T, Integer> entry = iterator.next();
                 if (matriz[idx][entry.getValue()] == 1) {
@@ -162,9 +163,64 @@ public class GrafoDirigidoAciclico <T> {
 
 
     /**
+     *
+     * @return regresa una cadena donde se ven los nodos del grafo ordenados
+     * por prioridad
+     */
+    public String topologicalSort(){
+        HashMap<T, Integer> gradosEntradaVert= new HashMap<>();
+        //guardamos los grados de entrada
+        for(T vertice: verticeToIndex.keySet()){
+            gradosEntradaVert.put(vertice, gradoDeEntrada(vertice));
+        }
+        //creamos una cola con prioridad para ir guardando los vertices con menor grado de salida
+        PriorityQueue<T> cola = new PriorityQueue<>((a, b) -> {
+            int diferenciaGrados=gradosEntradaVert.get(a)-gradosEntradaVert.get(b);
+            if(diferenciaGrados!=0) return diferenciaGrados;
+            return ((Comparable<T>)a).compareTo(b);
+        });
+        //guardamos los vertices con grado 0 como punto de partida
+        for(T vertice: gradosEntradaVert.keySet()){
+            if(gradosEntradaVert.get(vertice)==0){
+                cola.add(vertice);
+            }
+        }
+
+
+        StringBuilder sb = new StringBuilder();
+        while(!cola.isEmpty()){
+            T verticeActual=cola.poll();//sacamos el vertice de mayor prioridad
+            sb.append(verticeActual);
+            sb.append(" - ");
+
+
+            int indiceVecinos= verticeToIndex.get(verticeActual);
+            Iterator<Map.Entry<T, Integer>> iterator= verticeToIndex.entrySet().iterator();
+            while(iterator.hasNext()){
+                Map.Entry<T, Integer> entry= iterator.next();
+                if(matriz[indiceVecinos][entry.getValue()]==1){
+                    T vecino = entry.getKey();
+                    gradosEntradaVert.put(vecino, gradosEntradaVert.get(vecino)-1);//"eliminamos" el vertice
+                    if(gradosEntradaVert.get(vecino)==0){//si queda con grado de entrada 0 se guarda en la cola
+                        cola.add(vecino);
+                    }
+                }
+            }
+        }
+
+
+        if(sb.length()>0){
+            sb.setLength(sb.length()-3);
+        }
+
+
+        return sb.toString();
+    }
+
+
+    /**
      * Verifica si el grafo tiene ciclos usando DFS
      * Recorre todos los vertices del grafo y llama a un metodo auxiliar para buscar ciclos
-     *
      * @return true si el grafo tiene ciclos, false si no tiene
      */
     public boolean tieneCiclos() {
@@ -186,8 +242,8 @@ public class GrafoDirigidoAciclico <T> {
 
     /**
      *
-     * @param vertice        vertice que se esta explorando
-     * @param visitados      conjunto de vertices ya procesados completamente
+     * @param vertice vertice que se esta explorando
+     * @param visitados conjunto de vertices ya procesados completamente
      * @param enCaminoActual conjunto de vertices en la ruta de recursion actual
      * @return true si detecta un ciclo
      * @return false si no detecta un ciclo
@@ -220,29 +276,81 @@ public class GrafoDirigidoAciclico <T> {
      *
      * @return String de la matriz de adyacencia
      */
-    public String mostrarEstructura() {
-        String[] indiceAlVertice = new String[numVertices];
-        for (Map.Entry<T, Integer> entry : verticeToIndex.entrySet()) {
-            indiceAlVertice[entry.getValue()] = entry.getKey().toString();
+    public String mostrarEstructura(){
+        String [] indiceAlVertice= new String[numVertices];
+        for(Map.Entry<T, Integer> entry: verticeToIndex.entrySet()){
+            indiceAlVertice[entry.getValue()]=entry.getKey().toString();
         }
         StringBuilder sb = new StringBuilder();
         sb.append("  ");
-        for (int i = 0; i < numVertices; i++) {
+        for( int i=0; i<numVertices; i++){
             sb.append(indiceAlVertice[i]);
             sb.append(" ");
         }
         sb.append("\n");
 
 
-        for (int i = 0; i <= numVertices - 1; i++) {
+        for(int i=0; i<=numVertices-1; i++){
             sb.append(indiceAlVertice[i]);
             sb.append(" ");
-            for (int j = 0; j <= numVertices - 1; j++) {
+            for(int j=0; j<=numVertices-1; j++){
                 sb.append(matriz[i][j]);
                 sb.append(" ");
             }
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+
+    /**
+     *
+     * @param i vertice origen del arista que se desea insertar
+     * @param j vertice destino del arista que se desea insertar
+     * @return true si se inserto la arista correctamente
+     * @return  false si i y j son iguales
+     * @return false si ya existe la relacion
+     */
+    public boolean insertarArista(T i, T j){
+        if(!verticeToIndex.containsKey(i)||!verticeToIndex.containsKey(j)){//alguno de los vertices ingresados no esta en el conjunto de vertices
+            throw new IllegalArgumentException("Vertice fuera de rango ");
+        }
+        if(i.equals(j)) return false;//son iguales
+        int origen=verticeToIndex.get(i);
+        int destino=verticeToIndex.get(j);
+        if(matriz[origen][destino]==1)return false;//ya existe la relacion
+
+
+        matriz[origen][destino]=1;//creamos la arista
+        if(tieneCiclos()){
+            matriz[origen][destino]=0;
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * limpia todas las aristas del grafo
+     */
+    public void eliminarAristas(){
+        for(int i=0; i<=numVertices-1; i++){
+            for(int j=0; j<=numVertices-1; j++){
+                matriz[i][j]=0;
+            }
+        }
+    }
+
+
+    /**
+     *
+     * @param v el nuevo vertice de tipo T que se va a insertar en el grafo
+     *
+     */
+    public void insertarVertice(T v){
+        if(!verticeToIndex.containsKey(v)&&proxIndice<numVertices){
+            verticeToIndex.put(v, proxIndice);
+            proxIndice++;
+        }
     }
 }
