@@ -1,21 +1,27 @@
 package Logica;
 
+
 import java.util.Scanner;
+
 
 public class DAGTextUI {
     private Scanner sc;
     private GrafoDirigidoAciclico <String> grafo;
 
+
     public DAGTextUI(){
         sc= new Scanner(System.in);
         grafo=null;
+        imprimirTitulo();
         mostrarMenu();
     }
+
 
     public void mostrarMenu(){
         int opc=0;
         while (opc!=14){
             System.out.println("INGRESE QUE OPCION QUIERE REALIZAR");
+
 
             System.out.println("[1] Crear un nuevo grafo");
             System.out.println("[2] Insertar vértice");
@@ -29,16 +35,20 @@ public class DAGTextUI {
             System.out.println("[10] ¿Están conectados?");
             System.out.println("[11] ¿Tiene ciclos?");
             System.out.println("[12] Eliminar aristas");
-            System.out.println("[13] Salir");
+            System.out.println("[13] capturar un grafo");
+            System.out.println("[14] Salir");
+
 
             opc=sc.nextInt();
             procesarInstruccion(opc);
         }
 
+
     }
 
+
     public void procesarInstruccion(int opc){
-        if(opc!=1&&opc!=13&&grafo==null){
+        if(opc!=13&&opc!=1&&opc!=14&&grafo==null){
             System.out.println("aun no hay grafo creado");
             return;
         }
@@ -99,12 +109,56 @@ public class DAGTextUI {
                 System.out.println("aristas eliminadas");
                 break;
             case 13:
-                System.out.println("bye");
+                System.out.println("ingrese cuantos vertices tendra el grafo:");
+                int verticesB= sc.nextInt();
+                grafo= new GrafoDirigidoAciclico<>(verticesB);
+                System.out.println("grafo creado con exito");
+                for(int i=0;i< verticesB; i++){
+                    System.out.println("ingresa el vertice "+i+": ");
+                    grafo.insertarVertice(sc.next());
+                }
+                System.out.println("vertices caprurados con exito");
+                System.out.println(grafo.mostrarEstructura());
+                System.out.println("Cuantas aristas desea ingresar?");
+                int numAristas=sc.nextInt();
+                if(numAristas<=0||numAristas>(verticesB*verticesB)){
+                    System.out.println("cantidad de aristas invalida");
+                    break;
+                }else{
+                    for(int i=0; i<numAristas; i++){
+                        System.out.println("Ingrese el vertice origen: ");
+                        String verticeOrigen= sc.next();
+                        System.out.println("ingrese el vertice destino: ");
+                        String verticeDestino=sc.next();
+
+
+                        if (grafo.insertarArista(verticeOrigen, verticeDestino)){
+                            System.out.println("arista"+ verticeOrigen+" -> "+verticeDestino+" creada");
+                        }
+                    }
+                }
                 break;
             default:
                 break;
 
+
         }
         System.out.println("=========================================================");
+    }
+
+
+    private void imprimirTitulo(){
+        System.out.println("  ___          _                            _            _         ");
+        System.out.println(" / _ \\ _ __ __| | ___ _ __   __ _ _ __ ___ (_) ___ _ __ | |_ ___  ");
+        System.out.println("| | | | '__/ _` |/ _ \\ '_ \\ / _` | '_ ` _ \\| |/ _ \\ '_ \\| __/ _ \\ ");
+        System.out.println("| |_| | | | (_| |  __/ | | | (_| | | | | | | |  __/ | | | || (_) |");
+        System.out.println(" \\___/|_|  \\__,_|\\___|_| |_|\\__,_|_| |_| |_|_|\\___|_| |_|\\__\\___/ ");
+        System.out.println("                                                                    ");
+        System.out.println("|_   _|__  _ __   ___ | | ___   __ _(_) ___ ___                   ");
+        System.out.println("  | |/ _ \\| '_ \\ / _ \\| |/ _ \\ / _` | |/ __/ _ \\                  ");
+        System.out.println("  | | (_) | |_) | (_) | | (_) | (_| | | (_| (_) |                 ");
+        System.out.println("  |_|\\___/| .__/ \\___/|_|\\___/ \\__, |_|\\___\\___/                  ");
+        System.out.println("          |_|                   |___/                              ");
+        System.out.println("=============== POR DAVID GARCIA Y ABRAHAM MORENO ===========================");
     }
 }
